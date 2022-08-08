@@ -1,4 +1,5 @@
 import { createGlobalStyle, ThemeProvider } from 'styled-components'
+import Drawer from "@components/layout/drawer"
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -25,7 +26,9 @@ export default function App({ Component, pageProps }: any) {
     <>
       <GlobalStyle />
       <ThemeProvider theme={theme}>
-        <Component {...pageProps} />
+        <Drawer>
+          <Component {...pageProps} />
+        </Drawer>
       </ThemeProvider>
     </>
   )

@@ -21,7 +21,7 @@ const InputTextField = ({ control, name, label, type, rules }: ControlledTextFie
   });
 
   const displayError = (isSubmitted && rules?.required !== false && inputProps.value === "") || false
-  const displayHelperText = error ? `${inputProps.name} est requis` : ""
+  const displayHelperText = error ? `${inputProps.name} is required` : ""
 
   return (
     <TextField

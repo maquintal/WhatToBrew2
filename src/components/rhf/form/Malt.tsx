@@ -2,6 +2,8 @@ import * as React from "react";
 import { useForm } from "react-hook-form";
 
 import InputTextField from "@components/rhf/input/TextField";
+import Button from "@mui/material/Button";
+import DialogActions from "@mui/material/DialogActions";
 
 export type FormValuesMalt = {
   maltName: string;
@@ -20,15 +22,22 @@ const Malt = () => {
   const onSubmit = (data: FormValuesMalt) => console.log(data);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      {/* <TextField control={control} name="FirstName" label="Malt Name" required={true} /> */}
+    <form>
       <InputTextField
-                  control={control}
-                  name="maltName"
-                  label="Numero Civic"
-                  rules={{ required: true }}
-                />
-      <input type="submit" />
+        control={control}
+        name="maltName"
+        label="Malt"
+        rules={{ required: true }}
+        type={""}
+      />
+      <DialogActions>
+        <Button
+          variant="contained"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          Add Malt
+        </Button>
+      </DialogActions>
     </form>
   );
 }
