@@ -20,14 +20,14 @@
     "incremental": true,
     "baseUrl": "src", // This must be specified if "paths" is.
     "paths": {
-      "@components/*":[
+      "@components/*": [
         "components/*"
       ],
       "@app/*": [
         "app/*"
       ],
       "@config/*": [
-        "app/_config/*"
+        "config/*"
       ],
       "@environment/*": [
         "environments/*"
@@ -38,7 +38,7 @@
       "@helpers/*": [
         "helpers/*"
       ]
-    },
+    }
   },
   "include": [
     "next-env.d.ts",

@@ -20,9 +20,6 @@ const InputTextField = ({ control, name, label, type, rules }: ControlledTextFie
     rules: {required: rules?.required},
   });
 
-  const displayError = (isSubmitted && rules?.required !== false && inputProps.value === "") || false
-  const displayHelperText = error ? `${inputProps.name} is required` : ""
-
   return (
     <TextField
       fullWidth
@@ -30,8 +27,8 @@ const InputTextField = ({ control, name, label, type, rules }: ControlledTextFie
       variant={"outlined"}
       label={label}
       type={type}
-      error={displayError}
-      helperText={displayHelperText}
+      error={error && error !== undefined || false}
+      helperText={error ? `${inputProps.name} is required` : ""}
       required={rules?.required !== false || false}
     />
   )

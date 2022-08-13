@@ -1,4 +1,4 @@
-import { connectToDatabase } from "../../config/mongodb"
+import { connectToDatabase } from "@config/mongodb"
 
 const CreateOneBuilding = async (req: { body: { malt: any; }; }, res: { json: (arg0: any) => any; }) => {
 
