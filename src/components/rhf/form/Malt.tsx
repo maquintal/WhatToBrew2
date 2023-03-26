@@ -30,7 +30,7 @@ const Malt = () => {
 
   const { data, error, mutate } = useSWR(
     ready
-      ? ["POST", "/api/insertMalt", JSON.stringify(control._formValues)]
+      ? ["POST", "/api/Mutations/Malt/insertOne", JSON.stringify(control._formValues)]
       : null,
     fetcher
   );
