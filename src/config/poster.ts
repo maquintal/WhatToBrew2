@@ -1,17 +1,18 @@
 import axios from 'axios'
 
-const fetcher = async (method: string, url: string) => {
+const fetcher = (method: string, url: string, data: any) => {
   // console.log(method)
   // console.log(url)
+  // console.log(data)
   try {
-    const queryResult = await axios({
+    axios({
       method,
-      url
+      url,
+      data: JSON.parse(data)
     });
-
-    return queryResult
-    
   } catch (error) {
+    
+
     return error
   }
 }

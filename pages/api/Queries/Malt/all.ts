@@ -1,19 +1,15 @@
 import { connectToDatabase } from "@config/mongodb"
+import { NextRequest } from "next/server";
 
-const fetchAllMalts = async (req: any, res: { json: (arg0: any) => any; }) => {
+export default async function fetchAllMalts (req: any, res: any) {
 
   const { db } = await connectToDatabase();
-  
-  const MONGODB_DB = process.env.MONGODB_DB
-  const PROCESS_ENV = process.env
 
   const malts = await db
     .collection("malts")
     .find()
     .toArray()
 
-  return malts;
+  res.status(200).json(malts)
 
 };
-
-export default fetchAllMalts
