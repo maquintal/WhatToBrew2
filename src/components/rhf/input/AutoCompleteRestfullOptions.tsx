@@ -3,24 +3,24 @@ import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField"
 import React from "react";
 import { useController } from "react-hook-form";
-import useSWR from "swr";
 
 type ControlledAutoComplete = {
   control: any;
   name: string;
   label: string;
   rules: { required: boolean };
-  options: string[];
   restfulCall: string;
+  options: string[];
+  objectLabel: string;
 }
 
-const InputAutoComplete2 = ({ control, name, label, rules, restfulCall, options }: ControlledAutoComplete) => {
+const InputAutoCompleteRestfulOptions = ({ control, name, label, rules, restfulCall, options, objectLabel }: ControlledAutoComplete) => {
 
-  const [options2, setOptions2] = React.useState([]);
+  const [optionsRestful, setOptionsRestful] = React.useState([]);
 
   const getOptions = async () => {
-    const result = await fetcher("GET", `${restfulCall}`)
-    setOptions2(result?.data)
+    const restCallResult = await fetcher("GET", `${restfulCall}`)
+    setOptionsRestful(restCallResult?.data)
   }
 
   React.useEffect(() => {
@@ -41,13 +41,25 @@ const InputAutoComplete2 = ({ control, name, label, rules, restfulCall, options 
     <Autocomplete
       {...inputProps}
       onChange={(e, newValue) => {
-        inputProps.onChange(newValue);
+
+        const customOutput = newValue.map((item) => {
+
+          let propsKey = item?.[`${objectLabel}`]
+          const { _id, } = item
+
+          return { _id, [`${objectLabel}`]: propsKey }
+        })
+
+        inputProps.onChange(customOutput);
+        // inputProps.onChange(newValue); // whole object
       }}
-      options={options2}
+      options={optionsRestful}
       isOptionEqualToValue={(option, value) =>
         option._id === value._id
       }
-      getOptionLabel={(option) => option?.maltName}
+      getOptionLabel={(option) => option?.[`${objectLabel}`]}
+      // filterOptions={(selected) => selected}
+      filterSelectedOptions
       multiple={true}
       renderInput={(params) => (
         <TextField
@@ -64,4 +76,4 @@ const InputAutoComplete2 = ({ control, name, label, rules, restfulCall, options 
   )
 }
 
-export default InputAutoComplete2
+export default InputAutoCompleteRestfulOptions

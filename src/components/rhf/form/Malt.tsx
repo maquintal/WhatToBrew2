@@ -5,13 +5,11 @@ import useSWR from "swr";
 import InputTextField from "@components/rhf/input/TextField";
 import Button from "@mui/material/Button";
 import DialogActions from "@mui/material/DialogActions";
-import fetcher from "@config/fetcher";
 import { useState } from "react";
 import InputAutoComplete from "@components/rhf/input/AutoComplete";
 import SimpleSnackbar from "@components/layout/snackbar";
-import InputAutoCompleteRestful from "../input/AutoCompleteApiCall";
+import InputAutoCompleteRestfulOptions from "@components/rhf/input/AutoCompleteRestfullOptions";
 import poster from "@config/poster";
-import InputAutoComplete2 from "../input/AutoComplete2";
 
 export type FormValuesMalt = {
   maltName: string;
@@ -76,13 +74,14 @@ const Malt = () => {
         rules={{ required: true }}
         options={["Barley", "Wheat"]}
       />
-      <InputAutoComplete2
+      <InputAutoCompleteRestfulOptions
         control={control}
         name="substitute"
         label="Substitute(s)"
         rules={{ required: false }}
         restfulCall="/api/Queries/Malt/all"
         options={["Barley", "Wheat"]}
+        objectLabel={"maltName"}
       />
       <DialogActions>
         <Button variant="contained" onClick={showForm}>
