@@ -18,15 +18,22 @@ const InputAutoCompleteRestfulOptions = ({ control, name, label, rules, restfulC
 
   const [optionsRestful, setOptionsRestful] = React.useState([]);
 
-  const getOptions = async () => {
-    const restCallResult = await fetcher("GET", `${restfulCall}`)
+  // const getOptions = async () => {
+  //   const restCallResult: any = await fetcher("GET", `${restfulCall}`)
+  //   setOptionsRestful(restCallResult?.data)
+  // }
+
+  // React.useEffect(() => {
+  //   getOptions()
+  // }, [getOptions])
+
+  const getOptions = React.useCallback(async () => {
+    const restCallResult: any = await fetcher("GET", `${restfulCall}`)
     setOptionsRestful(restCallResult?.data)
-  }
+  }, [restfulCall])
 
-  React.useEffect(() => {
-    getOptions()
-  }, [])
-
+  getOptions()
+  
   const {
     field: { ...inputProps },
     fieldState: { invalid, isTouched, isDirty, error },
