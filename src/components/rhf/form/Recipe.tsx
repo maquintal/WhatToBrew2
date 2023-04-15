@@ -12,6 +12,9 @@ import InputAutoCompleteRestfulOptions2 from "@components/rhf/input/AutoComplete
 import poster from "@config/poster";
 import Grid from "@mui/material/Grid";
 
+import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
+import IndeterminateCheckBoxOutlinedIcon from '@mui/icons-material/IndeterminateCheckBoxOutlined';
+
 export type FormValuesRecipe = {
   malts: [
     {
@@ -82,6 +85,7 @@ const Recipe = () => {
   };
 
 
+  console.log(fields.length)
   return (
     <div>
       <form>
@@ -89,11 +93,13 @@ const Recipe = () => {
           return (
             <div key={field.id}>
               <Grid container spacing={1}>
-                {index > 0 && (
-                  <Grid item xs={1}>
-                    <button type="button" onClick={() => remove(index)}>
-                      DELETE
-                    </button>
+                {fields.length > 1 && (
+                  <Grid item xs={1} sx={{ marginTop: "1%" }}>
+                    <IndeterminateCheckBoxOutlinedIcon
+                      fontSize="large"
+                      type="button"
+                      onClick={() => remove(index)}
+                    />
                   </Grid>
                 )}
                 <Grid item xs={2}>
@@ -118,8 +124,9 @@ const Recipe = () => {
                     type={"number"}
                   />
                 </Grid>
-                <Grid item xs={1}>
-                  <button
+                <Grid item xs={1} sx={{ marginTop: "1%" }}>
+                  <AddBoxOutlinedIcon
+                    fontSize="large"
                     type="button"
                     onClick={() =>
                       append(
@@ -132,9 +139,7 @@ const Recipe = () => {
                         }
                       )
                     }
-                  >
-                    APPEND
-                  </button>
+                  />
                 </Grid>
                 <Grid item xs={6} />
               </Grid>

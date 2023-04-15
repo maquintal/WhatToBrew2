@@ -25,8 +25,12 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import StarBorder from '@mui/icons-material/StarBorder';
 import { useRouter } from 'next/router';
-
+import { mdiHops } from '@mdi/js';
+import { mdiYeast } from '@mdi/js';
+import { mdiBarley } from '@mdi/js';
+import Icon from '@mdi/react';
 const drawerWidth = 240;
+import { mdiPotMix } from '@mdi/js';
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
   open?: boolean;
@@ -92,7 +96,7 @@ export default function PersistentDrawerLeft(props: { children: string | number 
     setOpen(false);
   };
 
-  
+
   const handleClick = () => {
     setListOpen(!listOpen);
   };
@@ -151,19 +155,19 @@ export default function PersistentDrawerLeft(props: { children: string | number 
             <List component="div" disablePadding>
               <ListItemButton sx={{ pl: 4 }} onClick={() => router.replace('/ingredients/malt')}>
                 <ListItemIcon>
-                  <StarBorder />
+                  <Icon path={mdiBarley} size={1} />
                 </ListItemIcon>
                 <ListItemText primary="Malt" />
               </ListItemButton>
               <ListItemButton sx={{ pl: 4 }} onClick={() => router.push('/ingredients/hop')}>
                 <ListItemIcon>
-                  <StarBorder />
+                  <Icon path={mdiHops} size={1} />
                 </ListItemIcon>
                 <ListItemText primary="Hop" />
               </ListItemButton>
               <ListItemButton sx={{ pl: 4 }} onClick={() => router.push('/ingredients/yeast')}>
                 <ListItemIcon>
-                  <StarBorder />
+                  <Icon path={mdiYeast} size={1} />
                 </ListItemIcon>
                 <ListItemText primary="Yeast" />
               </ListItemButton>
@@ -171,7 +175,7 @@ export default function PersistentDrawerLeft(props: { children: string | number 
           </Collapse>
           <ListItemButton onClick={() => router.replace('/recipes')}>
             <ListItemIcon>
-              <InboxIcon />
+              <Icon path={mdiPotMix} size={1} />
             </ListItemIcon>
             <ListItemText primary="Add Recipes" />
           </ListItemButton>
