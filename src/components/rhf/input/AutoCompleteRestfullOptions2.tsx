@@ -18,28 +18,26 @@ type ControlledAutoComplete = {
 
 const InputAutoCompleteRestfulOptions = ({ control, index, field, name, label, rules, restfulCall, options, objectLabel }: ControlledAutoComplete) => {
 
-  const [ready, setReady] = React.useState(true);
   const [optionsRestful, setOptionsRestful] = React.useState(options);
-  const [inputValue, setInputValue] = React.useState('')
 
-  // const getOptions = async () => {
-  //   const restCallResult: any = await fetcher("GET", `${restfulCall}`)
-  //   setOptionsRestful(restCallResult?.data)
-  // }
+  const [error2, setError] = React.useState("");
+  const [loaded, setLoaded] = React.useState(false);
 
-  // React.useEffect(() => {
-  //   getOptions()
-  // }, [getOptions])
+  React.useEffect(() => {
+    const loadAsyncStuff = async () => {
+      try {
+        const response: any = await fetcher("GET", `${restfulCall}`)
+        setOptionsRestful(response?.data);
+      } catch (error) {
+        setError(error2);
+      } finally {
+        setLoaded(true);
+      }
+    };
 
-  const getOptions = React.useCallback(async () => {
-    const restCallResult: any = await fetcher("GET", `${restfulCall}`)
-    setOptionsRestful(restCallResult?.data)
-    setReady(false)
-  }, [restfulCall])
+    loadAsyncStuff();
+  }, []);
 
-  // getOptions()
-  ready && getOptions() || null
-  
   const {
     field: { ...inputProps },
     fieldState: { invalid, isTouched, isDirty, error },
@@ -55,15 +53,10 @@ const InputAutoCompleteRestfulOptions = ({ control, index, field, name, label, r
       {...inputProps}
       onChange={(e, newValue) => {
 
-        console.log(newValue)
-        const customOutput = newValue.map((item) => {
+        let propsKey = newValue?.[`${objectLabel}`]
+        const { _id, } = newValue
 
-          let propsKey = item?.[`${objectLabel}`]
-          const { _id, } = item
-
-          return { _id, [`${objectLabel}`]: propsKey }
-        })
-
+        const customOutput = { _id, [`${objectLabel}`]: propsKey }
         inputProps.onChange(customOutput);
         // inputProps.onChange(newValue); // whole object
       }}
@@ -72,9 +65,8 @@ const InputAutoCompleteRestfulOptions = ({ control, index, field, name, label, r
         option._id === value._id
       }
       getOptionLabel={(option) => option?.[`${objectLabel}`]}
-      // filterOptions={(selected) => selected}
       filterSelectedOptions
-      multiple={true}
+      multiple={false}
       renderInput={(params) => (
         <TextField
           {...params}

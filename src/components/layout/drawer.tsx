@@ -140,18 +140,6 @@ export default function PersistentDrawerLeft(props: { children: string | number 
           component="nav"
           aria-labelledby="nested-list-subheader"
         >
-          {/* <ListItemButton>
-            <ListItemIcon>
-              <SendIcon />
-            </ListItemIcon>
-            <ListItemText primary="Add Ingredients" />
-          </ListItemButton> */}
-          {/* <ListItemButton>
-            <ListItemIcon>
-              <DraftsIcon />
-            </ListItemIcon>
-            <ListItemText primary="Drafts" />
-          </ListItemButton> */}
           <ListItemButton onClick={handleClick}>
             <ListItemIcon>
               <InboxIcon />
@@ -173,7 +161,7 @@ export default function PersistentDrawerLeft(props: { children: string | number 
                 </ListItemIcon>
                 <ListItemText primary="Hop" />
               </ListItemButton>
-              <ListItemButton sx={{ pl: 4 }}>
+              <ListItemButton sx={{ pl: 4 }} onClick={() => router.push('/ingredients/yeast')}>
                 <ListItemIcon>
                   <StarBorder />
                 </ListItemIcon>
@@ -181,6 +169,12 @@ export default function PersistentDrawerLeft(props: { children: string | number 
               </ListItemButton>
             </List>
           </Collapse>
+          <ListItemButton onClick={() => router.replace('/recipes')}>
+            <ListItemIcon>
+              <InboxIcon />
+            </ListItemIcon>
+            <ListItemText primary="Add Recipes" />
+          </ListItemButton>
         </List>
       </Drawer>
       <Main open={open}>
