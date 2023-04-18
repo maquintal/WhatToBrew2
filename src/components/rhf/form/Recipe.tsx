@@ -85,85 +85,79 @@ const Recipe = () => {
   };
 
 
-  console.log(fields.length)
   return (
-    <div>
-      <form>
+    <form>
+      <Grid container>
         {fields.map((field, index) => {
           return (
-            <div key={field.id}>
-              <Grid container spacing={1}>
+            <Grid container key={field.id} spacing={1}>
+              <Grid item xs={1} sx={{ marginTop: "1%", height: "60px" }}>
                 {fields.length > 1 && (
-                  <Grid item xs={1} sx={{ marginTop: "1%" }}>
-                    <IndeterminateCheckBoxOutlinedIcon
-                      fontSize="large"
-                      type="button"
-                      onClick={() => remove(index)}
-                    />
-                  </Grid>
-                )}
-                <Grid item xs={2}>
-                  <InputAutoCompleteRestfulOptions2
-                    control={control}
-                    index={index}
-                    field={field}
-                    name={`malts.${index}.selected`}
-                    label="Malt Name"
-                    rules={{ required: false }}
-                    restfulCall="/api/Queries/Malt/all"
-                    options={["Barley", "Wheat"]}
-                    objectLabel={"maltName"}
-                  />
-                </Grid>
-                <Grid item xs={2}>
-                  <InputTextField
-                    control={control}
-                    name="quantity"
-                    label="Quantity"
-                    rules={{ required: true }}
-                    type={"number"}
-                  />
-                </Grid>
-                <Grid item xs={1} sx={{ marginTop: "1%" }}>
-                  <AddBoxOutlinedIcon
+                  <IndeterminateCheckBoxOutlinedIcon
                     fontSize="large"
                     type="button"
-                    onClick={() =>
-                      append(
-                        {
-                          selected: {
-                            _id: "",
-                            maltName: ""
-                          },
-                          quantity: 0
-                        }
-                      )
-                    }
+                    onClick={() => remove(index)}
                   />
-                </Grid>
-                <Grid item xs={6} />
+                )}
               </Grid>
-            </div>
+              <Grid item xs={4}>
+                <InputAutoCompleteRestfulOptions2
+                  control={control}
+                  index={index}
+                  field={field}
+                  name={`malts.${index}.selected`}
+                  label="Malt Name"
+                  rules={{ required: false }}
+                  restfulCall="/api/Queries/Malt/all"
+                  options={["Barley", "Wheat"]}
+                  objectLabel={"maltName"}
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <InputTextField
+                  control={control}
+                  name={`malts.${index}.quantity`}
+                  label="Quantity"
+                  rules={{ required: true }}
+                  type={"number"}
+                />
+              </Grid>
+              <Grid item xs={1} sx={{ marginTop: "1%" }}>
+                <AddBoxOutlinedIcon
+                  fontSize="large"
+                  type="button"
+                  onClick={() =>
+                    append(
+                      {
+                        selected: {
+                          _id: "",
+                          maltName: ""
+                        },
+                        quantity: 0
+                      }
+                    )
+                  }
+                />
+              </Grid>
+              <Grid item xs={2}>x</Grid>
+            </Grid>
           );
         })}
-        <Grid container>
-          <Grid item xs={12}>
-            <DialogActions>
-              <Button variant="contained" onClick={showForm}>
-                Form Data
-              </Button>
-              <Button variant="contained" onClick={handleSubmit(onSubmit)}>
-                Add Yeast
-              </Button>
-            </DialogActions>
-          </Grid>
-          <pre>{JSON.stringify(state, null, 2)}</pre>
-          {snackbarState ? <SimpleSnackbar /> : null}
+        <Grid item xs={12}>
+          <DialogActions>
+            <Button variant="contained" onClick={showForm}>
+              Form Data
+            </Button>
+            <Button variant="contained" onClick={handleSubmit(onSubmit)}>
+              Add Yeast
+            </Button>
+          </DialogActions>
         </Grid>
+        <pre>{JSON.stringify(state, null, 2)}</pre>
+        {snackbarState ? <SimpleSnackbar /> : null}
+      </Grid>
 
-
-      </form>
-    </div>
+    </form>
   );
 };
 
