@@ -58,7 +58,6 @@ const InputAutoCompleteRestfulOptions = ({ control, index, field, name, label, r
 
         const customOutput = { _id, [`${objectLabel}`]: propsKey }
         inputProps.onChange(customOutput);
-        // inputProps.onChange(newValue); // whole object
       }}
       options={optionsRestful}
       isOptionEqualToValue={(option, value) =>

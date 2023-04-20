@@ -14,9 +14,19 @@ import Grid from "@mui/material/Grid";
 
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import IndeterminateCheckBoxOutlinedIcon from '@mui/icons-material/IndeterminateCheckBoxOutlined';
+import RecipeReviewCard from "@components/rhf/surfaces/cardIngredients";
 
 export type FormValuesRecipe = {
   malts: [
+    {
+      selected: {
+        _id: string;
+        maltName: string;
+      },
+      quantity: number;
+    }
+  ],
+  malts2: [
     {
       selected: {
         _id: string;
@@ -41,6 +51,15 @@ const Recipe = () => {
           },
           quantity: 0
         }
+      ],
+      malts2: [
+        {
+          selected: {
+            _id: "",
+            maltName: ""
+          },
+          quantity: 0
+        }
       ]
       // maltName: "",
       // cerealType: "Barley",
@@ -51,6 +70,11 @@ const Recipe = () => {
 
   const { fields, append, remove } = useFieldArray({
     name: "malts",
+    control
+  });
+
+  const { fields2, append: append2, remove: remove2 } = useFieldArray({
+    name: "malts2",
     control
   });
 
@@ -100,7 +124,7 @@ const Recipe = () => {
                   />
                 )}
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={2}>
                 <InputAutoCompleteRestfulOptions2
                   control={control}
                   index={index}
@@ -113,7 +137,7 @@ const Recipe = () => {
                   objectLabel={"maltName"}
                 />
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={2}>
                 <InputTextField
                   control={control}
                   name={`malts.${index}.quantity`}
@@ -139,7 +163,62 @@ const Recipe = () => {
                   }
                 />
               </Grid>
-              <Grid item xs={2}>x</Grid>
+              <Grid item xs={6}>
+                <RecipeReviewCard
+                  buddy={
+                    <Grid container key={field.id} spacing={1}>
+                      <Grid item xs={1} sx={{ marginTop: "1%", height: "60px" }}>
+                        {fields.length > 1 && (
+                          <IndeterminateCheckBoxOutlinedIcon
+                            fontSize="large"
+                            type="button"
+                            onClick={() => remove(index)}
+                          />
+                        )}
+                      </Grid>
+                      <Grid item xs={2}>
+                        <InputAutoCompleteRestfulOptions2
+                          control={control}
+                          index={index}
+                          field={field}
+                          name={`malts2.${index}.selected`}
+                          label="Malt Name"
+                          rules={{ required: false }}
+                          restfulCall="/api/Queries/Malt/all"
+                          options={["Barley", "Wheat"]}
+                          objectLabel={"maltName"}
+                        />
+                      </Grid>
+                      <Grid item xs={2}>
+                        <InputTextField
+                          control={control}
+                          name={`malts2.${index}.quantity`}
+                          label="Quantity"
+                          rules={{ required: true }}
+                          type={"number"}
+                        />
+                      </Grid>
+                      <Grid item xs={1} sx={{ marginTop: "1%" }}>
+                        <AddBoxOutlinedIcon
+                          fontSize="large"
+                          type="button"
+                          onClick={() =>
+                            append(
+                              {
+                                selected: {
+                                  _id: "",
+                                  maltName: ""
+                                },
+                                quantity: 0
+                              }
+                            )
+                          }
+                        />
+                      </Grid>
+                    </Grid>
+                  }
+                />
+              </Grid>
             </Grid>
           );
         })}

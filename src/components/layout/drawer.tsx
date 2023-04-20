@@ -31,6 +31,7 @@ import { mdiBarley } from '@mdi/js';
 import Icon from '@mdi/react';
 const drawerWidth = 240;
 import { mdiPotMix } from '@mdi/js';
+import { mdiFoodVariant } from '@mdi/js';
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
   open?: boolean;
@@ -170,6 +171,12 @@ export default function PersistentDrawerLeft(props: { children: string | number 
                   <Icon path={mdiYeast} size={1} />
                 </ListItemIcon>
                 <ListItemText primary="Yeast" />
+              </ListItemButton>
+              <ListItemButton sx={{ pl: 4 }} onClick={() => router.push('/ingredients/misc')}>
+                <ListItemIcon>
+                  <Icon path={mdiFoodVariant} size={1} />
+                </ListItemIcon>
+                <ListItemText primary="Misc" />
               </ListItemButton>
             </List>
           </Collapse>
