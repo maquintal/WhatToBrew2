@@ -15,6 +15,7 @@ import Grid from "@mui/material/Grid";
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import IndeterminateCheckBoxOutlinedIcon from '@mui/icons-material/IndeterminateCheckBoxOutlined';
 import RecipeReviewCard from "@components/rhf/surfaces/cardIngredients";
+import InputAdornment from "@mui/material/InputAdornment";
 
 export type FormValuesRecipe = {
   malts: [
@@ -26,11 +27,11 @@ export type FormValuesRecipe = {
       quantity: number;
     }
   ],
-  malts2: [
+  hops: [
     {
       selected: {
         _id: string;
-        maltName: string;
+        hopName: string;
       },
       quantity: number;
     }
@@ -52,11 +53,11 @@ const Recipe = () => {
           quantity: 0
         }
       ],
-      malts2: [
+      hops: [
         {
           selected: {
             _id: "",
-            maltName: ""
+            hopName: ""
           },
           quantity: 0
         }
@@ -68,8 +69,13 @@ const Recipe = () => {
     mode: "onChange",
   });
 
-  const { fields, append, remove } = useFieldArray({
+  const { fields: fieldsMalts, append: appendMalt, remove: removeMalt } = useFieldArray({
     name: "malts",
+    control
+  });
+
+  const { fields: fieldsHops, append: appendHop, remove: removeHop } = useFieldArray({
+    name: "hops",
     control
   });
 
@@ -106,23 +112,41 @@ const Recipe = () => {
 
   return (
     <form>
-      <Grid container>
+      <Grid container spacing={3}>
         <Grid item xs={6}>
           <RecipeReviewCard
-            buddy={
-              fields.map((field, index) => {
+            title={"Matls"}
+            buddy={<>
+              <Grid container justifyContent="flex-end">
+                <Grid item sx={{ marginTop: "1%" }}>
+                  <AddBoxOutlinedIcon
+                    fontSize="large"
+                    type="button"
+                    onClick={() =>
+                      appendMalt(
+                        {
+                          selected: {
+                            _id: "",
+                            maltName: ""
+                          },
+                          quantity: 0
+                        }
+                      )
+                    }
+                  />
+                </Grid>
+              </Grid>
+              {fieldsMalts.map((field, index: any) => {
                 return (
                   <Grid container key={field.id} spacing={1}>
-                    <Grid item xs={2} sx={{ marginTop: "1%", height: "70px" }}>
-                      {fields.length > 1 && (
-                        <IndeterminateCheckBoxOutlinedIcon
-                          fontSize="large"
-                          type="button"
-                          onClick={() => remove(index)}
-                        />
-                      )}
+                    <Grid item xs={1} sx={{ marginTop: "1%", height: "70px" }}>
+                      <IndeterminateCheckBoxOutlinedIcon
+                        fontSize="large"
+                        type="button"
+                        onClick={() => removeMalt(index)}
+                      />
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={5}>
                       <InputAutoCompleteRestfulOptions2
                         control={control}
                         index={index}
@@ -135,10 +159,57 @@ const Recipe = () => {
                         objectLabel={"maltName"}
                       />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item xs={4}>
                       <InputTextField
                         control={control}
                         name={`malts.${index}.quantity`}
+                        label="Quantity"
+                        rules={{ required: true }}
+                        type={"number"}
+                      />
+                    </Grid>
+                    <Grid item xs={1}>%</Grid>
+
+                  </Grid>
+                )
+              })
+              }
+            </>
+            }
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <RecipeReviewCard
+            buddy={
+              fieldsHops.map((field, index: any) => {
+                return (
+                  <Grid container key={field.id} spacing={1}>
+                    <Grid item xs={1} sx={{ marginTop: "1%", height: "70px" }}>
+                      {fieldsHops.length > 1 && (
+                        <IndeterminateCheckBoxOutlinedIcon
+                          fontSize="large"
+                          type="button"
+                          onClick={() => removeHop(index)}
+                        />
+                      )}
+                    </Grid>
+                    <Grid item xs={6}>
+                      <InputAutoCompleteRestfulOptions2
+                        control={control}
+                        index={index}
+                        field={field}
+                        name={`hops.${index}.selected`}
+                        label="Hop Name"
+                        rules={{ required: false }}
+                        restfulCall="/api/Queries/Hop/all"
+                        options={["Barley", "Wheat"]}
+                        objectLabel={"hopName"}
+                      />
+                    </Grid>
+                    <Grid item xs={4}>
+                      <InputTextField
+                        control={control}
+                        name={`hops.${index}.quantity`}
                         label="Quantity"
                         rules={{ required: true }}
                         type={"number"}
@@ -149,11 +220,11 @@ const Recipe = () => {
                         fontSize="large"
                         type="button"
                         onClick={() =>
-                          append(
+                          appendHop(
                             {
                               selected: {
                                 _id: "",
-                                maltName: ""
+                                hopName: ""
                               },
                               quantity: 0
                             }
@@ -167,24 +238,19 @@ const Recipe = () => {
             }
           />
         </Grid>
-        <Grid item xs={6}>
-          <RecipeReviewCard
-            buddy={<>x</>}
-          />
+        <Grid item xs={12}>
+          <DialogActions>
+            <Button variant="contained" onClick={showForm}>
+              Form Data
+            </Button>
+            <Button variant="contained" onClick={handleSubmit(onSubmit)}>
+              Add Yeast
+            </Button>
+          </DialogActions>
         </Grid>
-      <Grid item xs={12}>
-        <DialogActions>
-          <Button variant="contained" onClick={showForm}>
-            Form Data
-          </Button>
-          <Button variant="contained" onClick={handleSubmit(onSubmit)}>
-            Add Yeast
-          </Button>
-        </DialogActions>
+        <pre>{JSON.stringify(state, null, 2)}</pre>
+        {snackbarState ? <SimpleSnackbar /> : null}
       </Grid>
-      <pre>{JSON.stringify(state, null, 2)}</pre>
-      {snackbarState ? <SimpleSnackbar /> : null}
-    </Grid>
 
     </form >
   );

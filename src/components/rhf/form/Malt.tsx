@@ -1,16 +1,21 @@
 import * as React from "react";
 import { useForm } from "react-hook-form";
-import useSWR from "swr";
+import useSWR, { SWRResponse } from "swr";
 
-import InputTextField from "@components/rhf/input/TextField";
-import Button from "@mui/material/Button";
-import DialogActions from "@mui/material/DialogActions";
-import { useState } from "react";
-import InputAutoComplete from "@components/rhf/input/AutoComplete";
-import SimpleSnackbar from "@components/layout/snackbar";
-import InputAutoCompleteRestfulOptions from "@components/rhf/input/AutoCompleteRestfullOptions";
+// UI
+import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
+import { Grid, DialogActions, Button } from "@mui/material";
+
+import fetcher from "@config/fetcher";
 import poster from "@config/poster";
-import Grid from "@mui/material/Grid";
+
+// Custom
+import SimpleDialog from "@components/rhf/surfaces/dialogIngredients";
+import SimpleSnackbar from "@components/layout/snackbar";
+
+import InputAutoComplete from "@components/rhf/input/AutoComplete";
+import InputAutoCompleteRestfulOptions from "@components/rhf/input/AutoCompleteRestfullOptions";
+import InputTextField from "@components/rhf/input/TextField";
 
 export type FormValuesMalt = {
   maltName: string;
@@ -19,6 +24,28 @@ export type FormValuesMalt = {
 };
 
 const Malt = () => {
+
+  // <DataGrid /> 
+  const { data: dataMalts, error: dataError }: SWRResponse = useSWR(
+    ["GET", "/api/Queries/Malt/all"], fetcher
+  );
+
+  const columns: GridColDef[] = [
+    { field: '_id', headerName: 'ID', width: 70 },
+    { field: 'maltName', headerName: 'Malt Name', width: 130 },
+    { field: 'cerealType', headerName: 'Cereal Type', width: 130 },
+    {
+      field: 'substitute',
+      headerName: 'Substitute(s)',
+      width: 400,
+      valueGetter: (params) => params.row?.substitute.map((item: any) => item.maltName)
+    },
+  ];
+
+  const [open, setOpen] = React.useState(false);
+  const [selectedValue, setSelectedValue] = React.useState({});
+
+  // RHF Insert Malt
   const { handleSubmit, control, getValues } = useForm<FormValuesMalt>({
     defaultValues: {
       maltName: "",
@@ -28,9 +55,13 @@ const Malt = () => {
     mode: "onChange",
   });
 
-  const [ready, setReady] = useState(false);
-  const [state, setState] = useState({});
-  const [snackbarState, setSnackbarState] = useState(false);
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const [ready, setReady] = React.useState(false);
+  const [state, setState] = React.useState({});
+  const [snackbarState, setSnackbarState] = React.useState(false);
 
   const { data, error, mutate } = useSWR(
     ready
@@ -58,8 +89,30 @@ const Malt = () => {
     setReady(false);
   };
 
+  if (!dataMalts || dataError) {
+    return null
+  }
 
-  return (
+  return (<>
+    <div style={{ height: 400, width: '100%' }}>
+      <DataGrid
+        getRowId={(row) => row._id}
+        rows={dataMalts?.data}
+        columns={columns}
+        pageSize={5}
+        rowsPerPageOptions={[5]}
+        // onRowClick={(clicked) => { console.log(clicked) }}
+      onRowClick={(clicked) => { setSelectedValue(clicked); setOpen(true) }}
+      // checkboxSelection
+      />
+    </div>
+
+    {open && <SimpleDialog
+      selectedValue={selectedValue}
+      open={open}
+      onClose={handleClose}
+    /> || null}
+
     <form>
       <Grid container spacing={1}>
         <Grid item xs={12}>
@@ -105,6 +158,8 @@ const Malt = () => {
         {snackbarState ? <SimpleSnackbar /> : null}
       </Grid>
     </form>
+
+  </>
   );
 };
 

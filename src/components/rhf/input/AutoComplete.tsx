@@ -24,7 +24,7 @@ const InputAutoComplete = ({ control, name, label, rules, options }: ControlledA
   // https://www.reddit.com/r/reactjs/comments/t070wr/reacthook_form_v7_how_to_make_a_reusable/
   // https://codesandbox.io/s/react-hook-form-wizard-form-complete-nnew-hvu5t8?file=/src/fieldArray.js:1001-1711
 
-  console.log(inputProps)
+  // console.log(inputProps)
 
   return (
     <Autocomplete
@@ -48,32 +48,6 @@ const InputAutoComplete = ({ control, name, label, rules, options }: ControlledA
         />
       )}
     />
-    // <Autocomplete
-    //   {...inputProps}
-    //   options={top100Films}
-    //   getOptionLabel={option => option}
-    //   // renderOption={option =>  option.key } //( {option} )}
-    //   renderInput={(params) =>
-    //     <TextField
-    //       {...params}
-    //       fullWidth
-    //       variant={"outlined"}
-    //       label={label}
-    //       error={error && error !== undefined || false}
-    //       helperText={error ? `${inputProps.name} is required` : ""}
-    //       required={rules?.required !== false || false}
-    //     // inputProps={{
-    //     //   ...params.inputProps,
-    //     //   autoComplete: "disabled" // disable autocomplete and autofill
-    //     // }}
-    //     />
-    //   }
-    //   onChange={(event, data) => {
-    //     console.log(data)
-    //     return data;
-    //   }}
-    // // defaultValue={"a"}
-    // />
   )
 }
 
