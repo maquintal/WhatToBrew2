@@ -15,7 +15,7 @@ import { mdiBarley } from '@mdi/js';
 import { mdiPotMix } from '@mdi/js';
 import { mdiFoodVariant } from '@mdi/js';
 
-export default function RecipeReviewCard({ buddy }: any) {
+export default function RecipeReviewCard({ body, title }: any) {
 
   return (
     <Card sx={{ /* maxWidth: 345 */ minHeight: 200 }}>
@@ -25,11 +25,11 @@ export default function RecipeReviewCard({ buddy }: any) {
             <Icon path={mdiBarley} size={1} />
           </Avatar>
         }
-        title="Shrimp and Chorizo Paella"
-        subheader="September 14, 2016"
+        title={title}
+        // subheader="September 14, 2016"
       />
       <CardContent>
-        {buddy}
+        {body}
       </CardContent>
     </Card>
   );

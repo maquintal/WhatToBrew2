@@ -1,8 +1,8 @@
 import Malt from "@components/rhf/form/Malt"
 
-const AddMalt = () => {
+const MaltIndex = () => {
 
   return (<Malt />)
 }
 
-export default AddMalt
+export default MaltIndex

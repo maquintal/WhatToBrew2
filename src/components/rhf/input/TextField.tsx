@@ -8,10 +8,17 @@ type ControlledTextField = {
   name: string;
   label: string;
   type: string;
-  rules: {required: boolean};
+  rules: { required: boolean };
 }
 
-const InputTextField = ({ control, name, label, type, rules }: ControlledTextField) => {
+const InputTextField = ({
+  control,
+  name,
+  label,
+  type,
+  rules
+}: ControlledTextField) => {
+  console.log(control)
   const {
     field: { ...inputProps },
     fieldState: { invalid, isTouched, isDirty, error },
@@ -19,7 +26,7 @@ const InputTextField = ({ control, name, label, type, rules }: ControlledTextFie
   } = useController({
     name,
     control,
-    rules: {required: rules?.required},
+    rules: { required: rules?.required }
   });
 
   return (
@@ -30,7 +37,7 @@ const InputTextField = ({ control, name, label, type, rules }: ControlledTextFie
       label={label}
       type={type}
       error={error && error !== undefined || false}
-      helperText={error ? `${inputProps.name} is required` : ""}
+      // helperText={error ? `${inputProps.name} is required` : ""}
       required={rules?.required !== false || false}
     />
   )

@@ -2,10 +2,11 @@ import * as React from "react";
 import { useForm } from "react-hook-form";
 import useSWR, { SWRResponse } from "swr";
 
-// UI
-import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
+// MUI
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Grid, DialogActions, Button } from "@mui/material";
 
+// Custom Tools
 import fetcher from "@config/fetcher";
 import poster from "@config/poster";
 
@@ -16,6 +17,7 @@ import SimpleSnackbar from "@components/layout/snackbar";
 import InputAutoComplete from "@components/rhf/input/AutoComplete";
 import InputAutoCompleteRestfulOptions from "@components/rhf/input/AutoCompleteRestfullOptions";
 import InputTextField from "@components/rhf/input/TextField";
+import RHFMalt from "@components/rhf/form/Malt";
 
 export type FormValuesMalt = {
   maltName: string;
@@ -25,8 +27,7 @@ export type FormValuesMalt = {
 
 const Malt = () => {
 
-  // <DataGrid /> 
-  const { data: dataMalts, error: dataError }: SWRResponse = useSWR(
+  const { data: dataMalts, error: dataError, mutate: mutateMalt }: SWRResponse = useSWR(
     ["GET", "/api/Queries/Malt/all"], fetcher
   );
 
@@ -69,9 +70,6 @@ const Malt = () => {
       : null,
     poster, {
     onSuccess: (data, key, config) => {
-      console.log({ data }); //this always prints "undefined"
-      //  data = data;
-      //  error = error;
       setSnackbarState(true)
     }
   }
@@ -82,8 +80,6 @@ const Malt = () => {
   }
 
   const onSubmit = async (data: FormValuesMalt) => {
-    // console.log(data);
-    // console.log(control);
     await setReady(true);
     ready ? mutate() : null;
     setReady(false);
@@ -101,17 +97,20 @@ const Malt = () => {
         columns={columns}
         pageSize={5}
         rowsPerPageOptions={[5]}
-        // onRowClick={(clicked) => { console.log(clicked) }}
-      onRowClick={(clicked) => { setSelectedValue(clicked); setOpen(true) }}
+        onRowClick={(clicked) => { setSelectedValue(clicked); setOpen(true) }}
       // checkboxSelection
       />
     </div>
 
-    {open && <SimpleDialog
-      selectedValue={selectedValue}
-      open={open}
-      onClose={handleClose}
-    /> || null}
+    {open &&
+      <SimpleDialog
+        selectedValue={selectedValue}
+        open={open}
+        onClose={handleClose}
+        dialogTitle={`Modify Existing Malt`}
+        refetch={() => mutateMalt()}
+      />
+      || null}
 
     <form>
       <Grid container spacing={1}>

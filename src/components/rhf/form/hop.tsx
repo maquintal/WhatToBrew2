@@ -1,15 +1,23 @@
 import * as React from "react";
 import { useForm } from "react-hook-form";
-import useSWR from "swr";
+import useSWR, { SWRResponse } from "swr";
+import { useState } from "react";
 
+// MUI
 import InputTextField from "@components/rhf/input/TextField";
 import Button from "@mui/material/Button";
 import DialogActions from "@mui/material/DialogActions";
-import { useState } from "react";
-import SimpleSnackbar from "@components/layout/snackbar";
-import InputAutoCompleteRestfulOptions from "@components/rhf/input/AutoCompleteRestfullOptions";
-import poster from "@config/poster";
 import Grid from "@mui/material/Grid";
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
+
+// Custom Tools
+import poster from "@config/poster";
+import fetcher from "@config/fetcher";
+
+// Custom
+import SimpleSnackbar from "@components/layout/snackbar";
+import SimpleDialog from "@components/rhf/surfaces/dialogIngredients";
+import InputAutoCompleteRestfulOptions from "@components/rhf/input/AutoCompleteRestfullOptions";
 
 export type FormValuesHop = {
   hopName: string;
@@ -17,6 +25,25 @@ export type FormValuesHop = {
 };
 
 const Hop = () => {
+
+  const { data: dataHops, error: dataError, mutate: mutateHops }: SWRResponse = useSWR(
+    ["GET", "/api/Queries/Hop/all"], fetcher
+  );
+
+  const columns: GridColDef[] = [
+    { field: '_id', headerName: 'ID', width: 70 },
+    { field: 'hopName', headerName: 'Hops', width: 130 },
+    {
+      field: 'substitute',
+      headerName: 'Hop Substitute(s)',
+      width: 400,
+      valueGetter: (params) => params.row?.substitute.map((item: any) => item.hopName)
+    },
+  ];
+
+  const [open, setOpen] = React.useState(false);
+  const [selectedValue, setSelectedValue] = React.useState({});
+
   const { handleSubmit, control, getValues } = useForm<FormValuesHop>({
     defaultValues: {
       hopName: "",
@@ -24,6 +51,10 @@ const Hop = () => {
     },
     mode: "onChange",
   });
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const [ready, setReady] = useState(false);
   const [state, setState] = useState({});
@@ -35,9 +66,6 @@ const Hop = () => {
       : null,
     poster, {
     onSuccess: (data, key, config) => {
-      console.log({ data }); //this always prints "undefined"
-      //  data = data;
-      //  error = error;
       setSnackbarState(true)
     }
   }
@@ -48,15 +76,38 @@ const Hop = () => {
   }
 
   const onSubmit = async (data: FormValuesHop) => {
-    // console.log(data);
-    // console.log(control);
     await setReady(true);
     ready ? mutate() : null;
     setReady(false);
   };
 
+  if (!dataHops || dataError) {
+    return null
+  }
 
-  return (
+  return (<>
+    <div style={{ height: 400, width: '100%' }}>
+      <DataGrid
+        getRowId={(row) => row._id}
+        rows={dataHops?.data}
+        columns={columns}
+        pageSize={5}
+        rowsPerPageOptions={[5]}
+        onRowClick={(clicked) => { setSelectedValue(clicked); setOpen(true) }}
+      // checkboxSelection
+      />
+    </div>
+
+    {open &&
+      <SimpleDialog
+        selectedValue={selectedValue}
+        open={open}
+        onClose={handleClose}
+        dialogTitle={`Modify Existing Hop`}
+        refetch={() => mutateHops()}
+      />
+      || null}
+
     <form>
       <Grid container spacing={1}>
         <Grid item xs={12}>
@@ -93,7 +144,7 @@ const Hop = () => {
         {snackbarState ? <SimpleSnackbar /> : null}
       </Grid>
     </form>
-  );
+  </>);
 };
 
 export default Hop;

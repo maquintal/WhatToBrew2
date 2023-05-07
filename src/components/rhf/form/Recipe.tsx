@@ -115,8 +115,8 @@ const Recipe = () => {
       <Grid container spacing={3}>
         <Grid item xs={6}>
           <RecipeReviewCard
-            title={"Matls"}
-            buddy={<>
+            title={"Custom Title"}
+            body={<>
               <Grid container justifyContent="flex-end">
                 <Grid item sx={{ marginTop: "1%" }}>
                   <AddBoxOutlinedIcon
@@ -180,7 +180,7 @@ const Recipe = () => {
         </Grid>
         <Grid item xs={6}>
           <RecipeReviewCard
-            buddy={
+            body={
               fieldsHops.map((field, index: any) => {
                 return (
                   <Grid container key={field.id} spacing={1}>
