@@ -1,4 +1,4 @@
-import Yeast from "@components/rhf/form/Yeast"
+import Yeast from "@components/screens/Yeast"
 
 const AddYeast = () => {
 

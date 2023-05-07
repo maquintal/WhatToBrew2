@@ -1,4 +1,4 @@
-import Misc from "@components/rhf/form/Misc"
+import Misc from "@components/screens/Misc"
 
 const AddMisc = () => {
 

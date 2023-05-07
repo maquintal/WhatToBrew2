@@ -1,4 +1,4 @@
-import Malt from "@components/rhf/form/Malt"
+import Malt from "@components/screens/Malt"
 
 const MaltIndex = () => {
 

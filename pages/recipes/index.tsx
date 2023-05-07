@@ -1,4 +1,4 @@
-import Recipe from "@components/rhf/form/Recipe"
+import Recipe from "@components/screens/Recipe"
 
 const AddRecipe = () => {
 

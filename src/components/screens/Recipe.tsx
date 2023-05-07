@@ -1,21 +1,24 @@
 import * as React from "react";
+import { useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import useSWR from "swr";
 
+// Custom Tools
+import poster from "@config/poster";
+
+// Cutom
+import RecipeReviewCard from "@components/screens/surfaces/cardIngredients";
+import InputAutoCompleteRestfulOptions2 from "@components/rhf/input/AutoCompleteRestfullOptions2";
 import InputTextField from "@components/rhf/input/TextField";
+
+// UI
+import ControlPointDuplicateOutlinedIcon from '@mui/icons-material/ControlPointDuplicateOutlined';
+import IndeterminateCheckBoxOutlinedIcon from '@mui/icons-material/IndeterminateCheckBoxOutlined';
+import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
+import Grid from "@mui/material/Grid";
+import SimpleSnackbar from "@components/layout/snackbar";
 import Button from "@mui/material/Button";
 import DialogActions from "@mui/material/DialogActions";
-import { useState } from "react";
-import InputAutoComplete from "@components/rhf/input/AutoComplete";
-import SimpleSnackbar from "@components/layout/snackbar";
-import InputAutoCompleteRestfulOptions2 from "@components/rhf/input/AutoCompleteRestfullOptions2";
-import poster from "@config/poster";
-import Grid from "@mui/material/Grid";
-
-import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
-import IndeterminateCheckBoxOutlinedIcon from '@mui/icons-material/IndeterminateCheckBoxOutlined';
-import RecipeReviewCard from "@components/rhf/surfaces/cardIngredients";
-import InputAdornment from "@mui/material/InputAdornment";
 
 export type FormValuesRecipe = {
   malts: [
@@ -36,9 +39,6 @@ export type FormValuesRecipe = {
       quantity: number;
     }
   ]
-  // maltName: string;
-  // cerealType: string;
-  // substitute: any[];
 };
 
 const Recipe = () => {
@@ -62,9 +62,6 @@ const Recipe = () => {
           quantity: 0
         }
       ]
-      // maltName: "",
-      // cerealType: "Barley",
-      // substitute: []
     },
     mode: "onChange",
   });
@@ -89,9 +86,6 @@ const Recipe = () => {
       : null,
     poster, {
     onSuccess: (data, key, config) => {
-      console.log({ data }); //this always prints "undefined"
-      //  data = data;
-      //  error = error;
       setSnackbarState(true)
     }
   }
@@ -102,8 +96,6 @@ const Recipe = () => {
   }
 
   const onSubmit = async (data: FormValuesRecipe) => {
-    // console.log(data);
-    // console.log(control);
     await setReady(true);
     ready ? mutate() : null;
     setReady(false);
@@ -119,7 +111,7 @@ const Recipe = () => {
             body={<>
               <Grid container justifyContent="flex-end">
                 <Grid item sx={{ marginTop: "1%" }}>
-                  <AddBoxOutlinedIcon
+                  <ControlPointDuplicateOutlinedIcon
                     fontSize="large"
                     type="button"
                     onClick={() =>
@@ -216,7 +208,7 @@ const Recipe = () => {
                       />
                     </Grid>
                     <Grid item xs={1} sx={{ marginTop: "1%" }}>
-                      <AddBoxOutlinedIcon
+                      <ControlPointDuplicateOutlinedIcon
                         fontSize="large"
                         type="button"
                         onClick={() =>

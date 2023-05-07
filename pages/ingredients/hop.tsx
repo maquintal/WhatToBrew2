@@ -1,4 +1,4 @@
-import Hop from "@components/rhf/form/Hop"
+import Hop from "@components/screens/Hop"
 
 const AddHop = () => {
 

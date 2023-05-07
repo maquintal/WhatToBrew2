@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useForm } from "react-hook-form";
-import useSWR, { SWRResponse } from "swr";
+import useSWR from "swr";
 
 // MUI
 import DialogTitle from '@mui/material/DialogTitle';
@@ -9,15 +9,13 @@ import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 
 // CUSTOM
-import InputTextField from "@components/rhf/input/TextField";
 import DialogActions from "@mui/material/DialogActions";
-import InputAutoComplete from "@components/rhf/input/AutoComplete";
 import SimpleSnackbar from "@components/layout/snackbar";
-import InputAutoCompleteRestfulOptions from "@components/rhf/input/AutoCompleteRestfullOptions";
 import poster from "@config/poster";
 
 import DialogContent from '@mui/material/DialogContent';
-import { FormValuesMalt } from '@components/rhf/form/Malt';
+import { FormValuesMalt } from '@components/screens/Malt';
+import RHFMaltBody from '@components/rhf/form/Malt';
 
 export interface SimpleDialogProps {
   open: boolean;
@@ -35,8 +33,6 @@ export type IngredientState = {
 
 function SimpleDialog(props: SimpleDialogProps) {
   const { onClose, selectedValue, open, dialogTitle, refetch } = props;
-
-  console.log(selectedValue?.row?.substitute)
 
   const [ready, setReady] = React.useState(false);
 
@@ -97,42 +93,14 @@ function SimpleDialog(props: SimpleDialogProps) {
             spacing={1}
             sx={{ pt: 1 }}
           >
-            {<Grid item xs={12}>
-              <InputTextField
-                control={control}
-                name="maltName"
-                label="Malt"
-                rules={{ required: true }}
-                type={""}
-              />
-            </Grid>}
-            <Grid item xs={12}>
-              <InputAutoComplete
-                control={control}
-                name="cerealType"
-                label="Cereal"
-                rules={{ required: true }}
-                options={["Barley", "Wheat"]}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <InputAutoCompleteRestfulOptions
-                control={control}
-                name="substitute"
-                label="Substitute(s)"
-                rules={{ required: false }}
-                restfulCall="/api/Queries/Malt/all"
-                options={["Barley", "Wheat"]}
-                objectLabel={"maltName"}
-              />
-            </Grid>
+            <RHFMaltBody control={control} />
             <Grid item xs={12}>
               <DialogActions>
                 <Button variant="contained" onClick={showForm}>
                   Form Data
                 </Button>
                 <Button variant="contained" onClick={handleSubmit(onSubmit)}>
-                  Add Malt
+                  Modify Malt
                 </Button>
               </DialogActions>
             </Grid>
