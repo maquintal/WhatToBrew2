@@ -6,11 +6,11 @@ const insertOneMisc = async (req: { body: { misc: any; }; }, res: { json: (arg0:
 
   const misc = req?.body
 
-  const malts = await db
+  const miscs = await db
     .collection("misc")
     .insertOne(misc)
 
-  return res.json(misc);
+  return res.json(miscs);
 
 };
 

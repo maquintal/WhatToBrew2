@@ -10,6 +10,8 @@ import poster from "@config/poster";
 import RecipeReviewCard from "@components/screens/surfaces/cardIngredients";
 import InputAutoCompleteRestfulOptions2 from "@components/rhf/input/AutoCompleteRestfullOptions2";
 import InputTextField from "@components/rhf/input/TextField";
+import RHFRecipeBodyMalt, { FormValuesRecipeMalt } from "@components/rhf/form/recipes/recipeMalt";
+import RHFRecipeBodyHop, { FormValuesRecipeHop } from "@components/rhf/form/recipes/recipeHop";
 
 // UI
 import ControlPointDuplicateOutlinedIcon from '@mui/icons-material/ControlPointDuplicateOutlined';
@@ -18,19 +20,15 @@ import Grid from "@mui/material/Grid";
 import SimpleSnackbar from "@components/layout/snackbar";
 import Button from "@mui/material/Button";
 import DialogActions from "@mui/material/DialogActions";
-import RHFRecipeBodyMalt, { FormValuesRecipeMalt } from "@components/rhf/form/recipes/recipeMalt";
+import RHFRecipeBodyYeast, { FormValuesRecipeYeast } from "@components/rhf/form/recipes/recipeYeast";
+import RHFRecipeBodyMisc, { FormValuesRecipeMisc } from "@components/rhf/form/recipes/recipeMisc";
+
 
 export type FormValuesRecipe = {
   malts: FormValuesRecipeMalt[],
-  hops: [
-    {
-      selected: {
-        _id: string;
-        hopName: string;
-      },
-      quantity: number;
-    }
-  ]
+  hops: FormValuesRecipeHop[],
+  yeasts: FormValuesRecipeYeast[],
+  miscs: FormValuesRecipeMisc[]
 };
 
 const Recipe = () => {
@@ -53,14 +51,27 @@ const Recipe = () => {
           },
           quantity: 0
         }
+      ],
+      yeasts: [
+        {
+          selected: {
+            _id: "",
+            yeastName: ""
+          },
+          quantity: 0
+        }
+      ],
+      miscs: [
+        {
+          selected: {
+            _id: "",
+            miscName: ""
+          },
+          quantity: 0
+        }
       ]
     },
     mode: "onChange",
-  });
-
-  const { fields: fieldsHops, append: appendHop, remove: removeHop } = useFieldArray({
-    name: "hops",
-    control
   });
 
   const [ready, setReady] = useState(false);
@@ -100,62 +111,20 @@ const Recipe = () => {
         </Grid>
         <Grid item xs={6}>
           <RecipeReviewCard
-            body={
-              fieldsHops.map((field, index: any) => {
-                return (
-                  <Grid container key={field.id} spacing={1}>
-                    <Grid item xs={1} sx={{ marginTop: "1%", height: "70px" }}>
-                      {fieldsHops.length > 1 && (
-                        <IndeterminateCheckBoxOutlinedIcon
-                          fontSize="large"
-                          type="button"
-                          onClick={() => removeHop(index)}
-                        />
-                      )}
-                    </Grid>
-                    <Grid item xs={6}>
-                      <InputAutoCompleteRestfulOptions2
-                        control={control}
-                        index={index}
-                        field={field}
-                        name={`hops.${index}.selected`}
-                        label="Hop Name"
-                        rules={{ required: false }}
-                        restfulCall="/api/Queries/Hop/all"
-                        options={["Barley", "Wheat"]}
-                        objectLabel={"hopName"}
-                      />
-                    </Grid>
-                    <Grid item xs={4}>
-                      <InputTextField
-                        control={control}
-                        name={`hops.${index}.quantity`}
-                        label="Quantity"
-                        rules={{ required: true }}
-                        type={"number"}
-                      />
-                    </Grid>
-                    <Grid item xs={1} sx={{ marginTop: "1%" }}>
-                      <ControlPointDuplicateOutlinedIcon
-                        fontSize="large"
-                        type="button"
-                        onClick={() =>
-                          appendHop(
-                            {
-                              selected: {
-                                _id: "",
-                                hopName: ""
-                              },
-                              quantity: 0
-                            }
-                          )
-                        }
-                      />
-                    </Grid>
-                  </Grid>
-                )
-              })
-            }
+            title={"Custom Title - Hop"}
+            body={<RHFRecipeBodyHop control={control} />}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <RecipeReviewCard
+            title={"Custom Title - Yeast"}
+            body={<RHFRecipeBodyYeast control={control} />}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <RecipeReviewCard
+            title={"Custom Title - Misc"}
+            body={<RHFRecipeBodyMisc control={control} />}
           />
         </Grid>
         <Grid item xs={12}>

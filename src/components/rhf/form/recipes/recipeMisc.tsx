@@ -9,21 +9,21 @@ import InputTextField from "@components/rhf/input/TextField";
 import ControlPointDuplicateOutlinedIcon from '@mui/icons-material/ControlPointDuplicateOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 
-export type FormValuesRecipeMalt = {
+export type FormValuesRecipeMisc = {
   selected: {
     _id: string;
-    maltName: string;
+    miscName: string;
   },
   quantity: number;
 
 };
 
-const RHFRecipeBodyMalt = (
+const RHFRecipeBodyMisc = (
   { control }: { control: Control<any> }
 ) => {
 
-  const { fields: fieldsMalts, append: appendMalt, remove: removeMalt } = useFieldArray({
-    name: "malts",
+  const { fields: fieldsMiscs, append: appendMisc, remove: removeMisc } = useFieldArray({
+    name: "miscs",
     control
   });
 
@@ -34,11 +34,11 @@ const RHFRecipeBodyMalt = (
           fontSize="large"
           type="button"
           onClick={() =>
-            appendMalt(
+            appendMisc(
               {
                 selected: {
                   _id: "",
-                  maltName: ""
+                  miscName: ""
                 },
                 quantity: 0
               }
@@ -47,7 +47,7 @@ const RHFRecipeBodyMalt = (
         />
       </Grid>
     </Grid>
-    {fieldsMalts.map((field, index: any) => {
+    {fieldsMiscs.map((field, index: any) => {
       return (
         <Grid container key={field.id} spacing={1}>
           <Grid item xs={5}>
@@ -55,18 +55,18 @@ const RHFRecipeBodyMalt = (
               control={control}
               index={index}
               field={field}
-              name={`malts.${index}.selected`}
-              label="Malt Name"
+              name={`miscs.${index}.selected`}
+              label="Misc Name"
               rules={{ required: false }}
-              restfulCall="/api/Queries/Malt/all"
-              options={["Barley", "Wheat"]}
-              objectLabel={"maltName"}
+              restfulCall="/api/Queries/Misc/all"
+              options={[]}
+              objectLabel={"miscName"}
             />
           </Grid>
           <Grid item xs={5}>
             <InputTextField
               control={control}
-              name={`malts.${index}.quantity`}
+              name={`miscs.${index}.quantity`}
               label="Quantity"
               rules={{ required: true }}
               type={"number"}
@@ -77,7 +77,7 @@ const RHFRecipeBodyMalt = (
             <DeleteOutlineOutlinedIcon
               fontSize="large"
               type="button"
-              onClick={() => removeMalt(index)}
+              onClick={() => removeMisc(index)}
             />
           </Grid>
         </Grid>
@@ -86,4 +86,4 @@ const RHFRecipeBodyMalt = (
   </>)
 }
 
-export default RHFRecipeBodyMalt
+export default RHFRecipeBodyMisc

@@ -18,7 +18,7 @@ import { mdiFoodVariant } from '@mdi/js';
 export default function RecipeReviewCard({ body, title }: any) {
 
   return (
-    <Card sx={{ /* maxWidth: 345 */ minHeight: 200 }}>
+    <Card sx={{ /* maxWidth: 345 */ /* minHeight: 200 */ }}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">

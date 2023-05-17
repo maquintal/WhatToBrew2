@@ -11,15 +11,15 @@ import Grid from "@mui/material/Grid";
 import RHFMiscBody from "@components/rhf/form/ingredients/Misc";
 
 export type FormValuesMiscellaneous = {
-  miscellaneousName: string;
-  miscellaneousType: string;
+  miscName: string;
+  miscType: string;
 };
 
 const Miscellaneous = () => {
   const { handleSubmit, control, getValues } = useForm<FormValuesMiscellaneous>({
     defaultValues: {
-      miscellaneousName: "",
-      miscellaneousType: ""
+      miscName: "",
+      miscType: ""
     },
     mode: "onChange",
   });
@@ -30,7 +30,7 @@ const Miscellaneous = () => {
 
   const { data, error, mutate } = useSWR(
     ready
-      ? ["POST", "/api/Mutations/Miscellaneous/insertOne", JSON.stringify(control._formValues)]
+      ? ["POST", "/api/Mutations/Misc/insertOne", JSON.stringify(control._formValues)]
       : null,
     poster, {
     onSuccess: (data, key, config) => {

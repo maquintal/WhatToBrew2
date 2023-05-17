@@ -16,7 +16,7 @@ const RHFMiscBody = (
     <Grid item xs={12}>
       <InputTextField
         control={control}
-        name="miscellaneousName"
+        name="miscName"
         label="Miscellaneous Name"
         rules={{ required: true }}
         type={""}
@@ -24,7 +24,7 @@ const RHFMiscBody = (
     </Grid><Grid item xs={12}>
       <InputTextField
         control={control}
-        name="miscellaneousType"
+        name="miscType"
         label="Miscellaneous Type"
         rules={{ required: true }}
         type={""}
