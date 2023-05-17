@@ -2,15 +2,13 @@ import * as React from "react";
 import { useForm } from "react-hook-form";
 import useSWR from "swr";
 
-import InputTextField from "@components/rhf/input/TextField";
 import Button from "@mui/material/Button";
 import DialogActions from "@mui/material/DialogActions";
 import { useState } from "react";
-import InputAutoComplete from "@components/rhf/input/AutoComplete";
 import SimpleSnackbar from "@components/layout/snackbar";
 import poster from "@config/poster";
 import Grid from "@mui/material/Grid";
-import RHFMiscBody from "@components/rhf/form/Misc";
+import RHFMiscBody from "@components/rhf/form/ingredients/Misc";
 
 export type FormValuesMiscellaneous = {
   miscellaneousName: string;

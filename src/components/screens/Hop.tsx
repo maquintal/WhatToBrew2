@@ -18,7 +18,7 @@ import fetcher from "@config/fetcher";
 import SimpleSnackbar from "@components/layout/snackbar";
 import SimpleDialog from "@components/screens/surfaces/dialogIngredients";
 import InputAutoCompleteRestfulOptions from "@components/rhf/input/AutoCompleteRestfullOptions";
-import RHFHopBody from "@components/rhf/form/Hop";
+import RHFHopBody from "@components/rhf/form/ingredients/Hop";
 
 export type FormValuesHop = {
   hopName: string;

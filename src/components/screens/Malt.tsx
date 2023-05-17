@@ -13,7 +13,7 @@ import poster from "@config/poster";
 // Custom
 import SimpleDialog from "@components/screens/surfaces/dialogIngredients";
 import SimpleSnackbar from "@components/layout/snackbar";
-import RHFMaltBody from "@components/rhf/form/Malt";
+import RHFMaltBody from "@components/rhf/form/ingredients/Malt";
 
 export type FormValuesMalt = {
   maltName: string;

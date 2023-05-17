@@ -14,12 +14,11 @@ import InputTextField from "@components/rhf/input/TextField";
 // UI
 import ControlPointDuplicateOutlinedIcon from '@mui/icons-material/ControlPointDuplicateOutlined';
 import IndeterminateCheckBoxOutlinedIcon from '@mui/icons-material/IndeterminateCheckBoxOutlined';
-import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import Grid from "@mui/material/Grid";
 import SimpleSnackbar from "@components/layout/snackbar";
 import Button from "@mui/material/Button";
 import DialogActions from "@mui/material/DialogActions";
-import RHFRecipeBodyMalt, { FormValuesRecipeMalt } from "@components/rhf/form/recipeMalt";
+import RHFRecipeBodyMalt, { FormValuesRecipeMalt } from "@components/rhf/form/recipes/recipeMalt";
 
 export type FormValuesRecipe = {
   malts: FormValuesRecipeMalt[],

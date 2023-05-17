@@ -15,7 +15,7 @@ import poster from "@config/poster";
 
 import DialogContent from '@mui/material/DialogContent';
 import { FormValuesMalt } from '@components/screens/Malt';
-import RHFMaltBody from '@components/rhf/form/Malt';
+import RHFMaltBody from '@components/rhf/form/ingredients/Malt';
 
 export interface SimpleDialogProps {
   open: boolean;
